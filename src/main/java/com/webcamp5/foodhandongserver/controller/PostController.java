@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     private final PostService postService;
 
+
+
     @GetMapping("/post")
     public ResponseEntity readPosts() {
         return ResponseEntity.ok(postService.readPosts());
