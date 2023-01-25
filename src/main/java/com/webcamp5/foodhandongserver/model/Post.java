@@ -6,29 +6,30 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "user_table")
-public class User {
+@Table(name = "post_table")
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
     private Long id;
-    private String name;
+    private String title;
+    private String content;
+    private Date reg_date;
     private boolean isLogined;
 
-    @JsonIgnore(value = false)
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    @JsonIgnore
+    private User user;
 
-    public void setPosts(List<Post> posts){
-        if(posts!= null){
-            this.posts = posts;
-        }
+    public void setUser(User user){
+        this.user = user;
+        user.getPosts().add(this);
     }
 }

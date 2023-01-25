@@ -1,5 +1,7 @@
 package com.webcamp5.foodhandongserver.controller;
 
+
+import com.webcamp5.foodhandongserver.model.Post;
 import com.webcamp5.foodhandongserver.model.User;
 import com.webcamp5.foodhandongserver.model.request.UserCreationRequest;
 import com.webcamp5.foodhandongserver.service.UserService;
@@ -8,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/api")
 @CrossOrigin
+@RequestMapping(value = "/api")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -19,30 +21,25 @@ public class UserController {
         return ResponseEntity.ok(userService.readUsers());
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<User> readUserById(@PathVariable String userId) {
-        return ResponseEntity.ok(userService.readUserByUserId(userId));
-    }
 
-    @GetMapping("/user/{userId}/{userPassword}")
-    public ResponseEntity<User> readUserByPassword(@PathVariable("userId") String userId, @PathVariable("userPassword") String userPassword) {
-        readUserById(userId);
-        return ResponseEntity.ok(userService.readUserByPassword(userPassword));
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<User> readUser (@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.readUser(userId));
     }
 
     @PostMapping("/user")
-    public ResponseEntity<User> createUser(@RequestBody UserCreationRequest request) {
+    public ResponseEntity<User> createUser (@RequestBody UserCreationRequest request){
         return ResponseEntity.ok(userService.createUser(request));
     }
 
     @DeleteMapping("/user/{userId}")
-    public ResponseEntity<Void> deleteUser (@PathVariable Long userId) {
+    public ResponseEntity<Void> deleteUser (@PathVariable Long userId){
         userService.deleteUser(userId);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/user/{userId}")
-    public ResponseEntity<User> updateUser (@RequestBody UserCreationRequest request, @PathVariable Long userId){
-        return ResponseEntity.ok(userService.updateUser(userId, request));
+    public ResponseEntity<User> updateUser(@RequestBody UserCreationRequest request, @PathVariable Long userId){
+        return ResponseEntity.ok(userService.updateUser(userId,request));
     }
 }
